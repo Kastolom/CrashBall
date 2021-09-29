@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class BallSpawner : MonoBehaviour
 {
-    [SerializeField] private Ball ball;
+    [SerializeField] private Ball[] ball;
     [SerializeField] private Timer timer;
+    [SerializeField] private DataManager dataManager;
+
     // Start is called before the first frame update
     void Start()
     {

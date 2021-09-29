@@ -4,19 +4,24 @@ using UnityEngine.UI;
 
 public class DataManager : MonoBehaviour
 {
+    const int countballs = 1;
     [SerializeField] Text TextMoney;
     [SerializeField] Text[] TextValues;
     [SerializeField] Text[] TextTimes;
     [SerializeField] Text[] LeveTextValues;
     [SerializeField] Text[] levelTextTimes;
+    [SerializeField] Ball[] balls;
+    //[SerializeField] Timer timer;
     private float money;
-    private float[] values = new float[1];
-    private float[] times = new float[1];
-    private float[] levelvalues = new float[1];
-    private float[] leveltimes = new float[1];
+    private float[] values = new float[countballs];
+    private float[] times = new float[countballs];
+    private float[] levelvalues = new float[countballs];
+    private float[] leveltimes = new float[countballs];
 
     private void Start()
     {
+        //PlayerPrefs.DeleteAll();
+        GetDefoltValue();
         GetSetValues(TextValues, values, "ball" , true);
         GetSetValues(TextTimes, times, "time", true);
         GetSetValues(LeveTextValues, levelvalues, "levelball", true);
@@ -30,18 +35,38 @@ public class DataManager : MonoBehaviour
         {
             if (state) //Берем значение
             {
-                _values[value] = PlayerPrefs.GetFloat(textValue + value.ToString(), 0);
-                item.text = values[value].ToString();
-                money = PlayerPrefs.GetFloat("money", 0);
-                TextMoney.text = PlayerPrefs.GetFloat("money", 0).ToString();
+                if(PlayerPrefs.HasKey(textValue + value.ToString()))
+                    _values[value] = PlayerPrefs.GetFloat(textValue + value.ToString());
+                item.text = _values[value].ToString();
+                money = PlayerPrefs.GetFloat("money");
+                TextMoney.text = money.ToString();
             }
             else //Сохраняем значение
             {
-                PlayerPrefs.SetFloat(textValue + value.ToString(), _values[value]);               
+                PlayerPrefs.SetFloat(textValue + value.ToString(), _values[value]);
                 PlayerPrefs.SetFloat("money", money);
             }
             value++;
         }
+        PlayerPrefs.Save();
+    }
+
+    private void GetDefoltValue()
+    {
+        int i = 0;
+        foreach (var item in balls)
+        {
+            values[i] = item.curentValue;
+            times[i] = item.curentTime;
+            levelvalues[i] = item.buyValue;
+            leveltimes[i] = item.buyTime;
+            i++;
+        }
+    }
+
+    private void CrashInvoke(float curentValue)
+    {
+        money += curentValue;
     }
 
     private void OnApplicationQuit()
@@ -50,6 +75,8 @@ public class DataManager : MonoBehaviour
         GetSetValues(TextTimes, times, "time", false);
         GetSetValues(LeveTextValues, levelvalues, "levelball", false);
         GetSetValues(levelTextTimes, leveltimes, "leveltime", false);
+        //PlayerPrefs.DeleteAll();
+        //PlayerPrefs.Save();
     }
 
 
