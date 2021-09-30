@@ -1,83 +1,123 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DataManager : MonoBehaviour
 {
-    const int countballs = 1;
+    [SerializeField] GameObject Environment;
     [SerializeField] Text TextMoney;
     [SerializeField] Text[] TextValues;
     [SerializeField] Text[] TextTimes;
     [SerializeField] Text[] LeveTextValues;
     [SerializeField] Text[] levelTextTimes;
     [SerializeField] Ball[] balls;
-    //[SerializeField] Timer timer;
+
+    [SerializeField] string[] keyPlayerPrefs;
+    [SerializeField] float coefValue;
+    [SerializeField] float coefTime;
+    [SerializeField] float levelcoefValue;
+    [SerializeField] float levelcoefTime;
+
     private float money;
-    private float[] values = new float[countballs];
-    private float[] times = new float[countballs];
-    private float[] levelvalues = new float[countballs];
-    private float[] leveltimes = new float[countballs];
+    private List<Ball> sceneBalls = new List<Ball>();
 
     private void Start()
     {
-        //PlayerPrefs.DeleteAll();
-        GetDefoltValue();
-        GetSetValues(TextValues, values, "ball" , true);
-        GetSetValues(TextTimes, times, "time", true);
-        GetSetValues(LeveTextValues, levelvalues, "levelball", true);
-        GetSetValues(levelTextTimes, leveltimes, "leveltime", true);
+        GetSaveValues(true);
+        SpawnBalls();
+        ShowData();
+    }   
+
+    private void SpawnBalls()
+    {
+        foreach (var item in balls)
+        {
+            Ball ball = Instantiate(item);
+            ball.CrashBall.AddListener(CrashEvent);
+            ball.SpavnEvent.AddListener(SpawnBalls);
+            ball.gameObject.transform.parent = Environment.transform;
+        }
     }
 
-    private void GetSetValues(Text[] textItems, float[] _values, string textValue, bool state)
+    private void ShowData()
     {
-        int value = 0;
-        foreach (var item in textItems)
+        TextMoney.text = money.ToString();
+        for (int i = 0; i < balls.Length; i++)
         {
-            if (state) //Берем значение
+            TextValues[i].text = balls[i].features[(int)Ball.Features.curentValue].ToString() + "$";
+            TextTimes[i].text = balls[i].features[(int)Ball.Features.curentTime].ToString() + "sec.";
+            LeveTextValues[i].text = balls[i].features[(int)Ball.Features.buyValue].ToString() + "$";
+            levelTextTimes[i].text = balls[i].features[(int)Ball.Features.buyTime].ToString() + "$";
+        }
+    }
+
+    private void CrashEvent(float _curentValue)
+    {
+        money += _curentValue;
+        money = (float)Math.Round(money, 1);
+        ShowData();
+    }
+
+    private void GetSaveValues(bool get)
+    {
+        if (get)
+        {
+            money = PlayerPrefs.GetFloat("money");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("money", money);
+        }
+
+        for (int i = 0; i < balls.Length; i++)
+        {
+            for (int j = 0; j < keyPlayerPrefs.Length; j++)
             {
-                if(PlayerPrefs.HasKey(textValue + value.ToString()))
-                    _values[value] = PlayerPrefs.GetFloat(textValue + value.ToString());
-                item.text = _values[value].ToString();
-                money = PlayerPrefs.GetFloat("money");
-                TextMoney.text = money.ToString();
-            }
-            else //Сохраняем значение
-            {
-                PlayerPrefs.SetFloat(textValue + value.ToString(), _values[value]);
-                PlayerPrefs.SetFloat("money", money);
-            }
-            value++;
+                string key = keyPlayerPrefs[j] + i.ToString() + j.ToString();
+                if (get)
+                {
+                    if (PlayerPrefs.HasKey(key))
+                    {
+                        balls[i].features[j] = PlayerPrefs.GetFloat(key);
+                    }
+                }
+                else
+                {
+                    PlayerPrefs.SetFloat(key, balls[i].features[j]);
+                }               
+            }          
         }
         PlayerPrefs.Save();
     }
 
-    private void GetDefoltValue()
-    {
-        int i = 0;
-        foreach (var item in balls)
-        {
-            values[i] = item.curentValue;
-            times[i] = item.curentTime;
-            levelvalues[i] = item.buyValue;
-            leveltimes[i] = item.buyTime;
-            i++;
-        }
-    }
-
-    private void CrashInvoke(float curentValue)
-    {
-        money += curentValue;
-    }
-
     private void OnApplicationQuit()
     {
-        GetSetValues(TextValues, values, "ball", false);
-        GetSetValues(TextTimes, times, "time", false);
-        GetSetValues(LeveTextValues, levelvalues, "levelball", false);
-        GetSetValues(levelTextTimes, leveltimes, "leveltime", false);
+        GetSaveValues(false);
         //PlayerPrefs.DeleteAll();
         //PlayerPrefs.Save();
     }
 
+    public void BuyValue(int i)
+    {
+        if (money> balls[i].features[(int)Ball.Features.buyValue])
+        {
+            balls[i].features[(int)Ball.Features.curentValue] = (float)Math.Round(balls[i].features[(int)Ball.Features.curentValue] * coefValue, 2);
+            balls[i].features[(int)Ball.Features.buyValue] = (float)Math.Round(balls[i].features[(int)Ball.Features.buyValue] * levelcoefValue, 2);
+            money -= balls[i].features[(int)Ball.Features.buyValue];
+            ShowData();
+        }      
+    }
 
+    public void ByTime(int i)
+    {
+        if (money > balls[i].features[(int)Ball.Features.buyTime])
+        {          
+            float timeOffset = (float)Math.Round(balls[i].features[(int)Ball.Features.curentTime] * coefTime, 2);
+            balls[i].features[(int)Ball.Features.curentTime] -= timeOffset;
+            balls[i].features[(int)Ball.Features.buyTime] = (float)Math.Round(balls[i].features[(int)Ball.Features.buyTime] * levelcoefTime, 2);
+            money -= balls[i].features[(int)Ball.Features.buyTime];
+            ShowData();
+        }        
+    }
 }
