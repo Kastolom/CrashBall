@@ -5,6 +5,11 @@ using UnityEngine;
 public class ScrollEnvironment : MonoBehaviour
 {
     [SerializeField] private float speed;
+
+    private void Start()
+    {
+        Screen.orientation = ScreenOrientation.Portrait;
+    }
     void Update()
     {      
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class Ball : MonoBehaviour
@@ -17,6 +18,7 @@ public class Ball : MonoBehaviour
     private bool active;
     private bool locked;
     private float timer;
+    private TextMesh textBall;
 
     public float[] features = new float[counFeature];
 
@@ -25,6 +27,7 @@ public class Ball : MonoBehaviour
 
     void Start()
     {
+        textBall = gameObject.GetComponentInChildren<TextMesh>();
         locked = false;
         active = false;
         timer = features[(int)Features.curentTime];
@@ -35,10 +38,12 @@ public class Ball : MonoBehaviour
     {
         if (enable)
         {
-            timer -= Time.deltaTime;
+            textBall.text = Math.Round(timer).ToString();
+            timer -= Time.deltaTime;         
 
             if (timer <= 0)
             {
+                textBall.text = features[(int)Features.curentValue].ToString() + "$";
                 timer = features[(int)Features.curentTime];
                 GetComponent<CircleCollider2D>().enabled = true;
                 GetComponent<Rigidbody2D>().simulated = true;
@@ -62,10 +67,11 @@ public class Ball : MonoBehaviour
     {
         if(collision.gameObject.TryGetComponent(out Gates gate))
         {
+            gate.GatePowerChange(-features[(int)Features.curentValue]);
             CrashBall.Invoke(features[(int)Features.curentValue]);
             Destroy(gameObject);
         }
     }
 
-    public class CrashBallEvent : UnityEvent<float> { } //Используем для отображения в редакторе
+    public class CrashBallEvent : UnityEvent<float> { }
 }
