@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class DataManager : MonoBehaviour
 {
+    [SerializeField] GameObject cube;
+    [SerializeField] GameObject circle;
+    [SerializeField] GameObject circleBig;
+
     [SerializeField] GameObject Environment;
     [SerializeField] Text TextMoney;
     [SerializeField] Text[] TextValues;
@@ -24,6 +28,8 @@ public class DataManager : MonoBehaviour
 
     private void Start()
     {
+        //PlayerPrefs.DeleteAll();
+        //PlayerPrefs.Save();
         GetSaveValues(true);
         SpawnBalls();
         ShowData();
@@ -35,9 +41,17 @@ public class DataManager : MonoBehaviour
         {
             Ball ball = Instantiate(item);
             ball.CrashBall.AddListener(CrashEvent);
-            ball.SpavnEvent.AddListener(SpawnBalls);
+            ball.SpawnBall.AddListener(SpawnBall);
             ball.gameObject.transform.parent = Environment.transform;
         }
+    }
+
+    private void SpawnBall(int ballNumber)
+    {
+        Ball ball = Instantiate(balls[ballNumber]);
+        ball.CrashBall.AddListener(CrashEvent);
+        ball.SpawnBall.AddListener(SpawnBall);
+        ball.gameObject.transform.parent = Environment.transform;
     }
 
     private void ShowData()
@@ -51,10 +65,20 @@ public class DataManager : MonoBehaviour
             float buyValue = (float)Math.Round(balls[i].features[(int)Ball.Features.buyValue], 1);
             float buyTime = (float)Math.Round(balls[i].features[(int)Ball.Features.buyTime], 1);
 
+            string block;
+            if (balls[i].locked)
+            {
+                block = "locked";
+            }
+            else
+            {
+                block = "$";
+            }
+
             TextValues[i].text = curentValue.ToString() + "$";
             TextTimes[i].text = curentTime.ToString() + "sec.";
-            LeveTextValues[i].text = buyValue.ToString() + "$";
-            levelTextTimes[i].text = buyTime.ToString() + "$";
+            LeveTextValues[i].text = buyValue.ToString() + block;
+            levelTextTimes[i].text = buyTime.ToString() + block;
 
             balls[i].features[(int)Ball.Features.curentValue] = curentValue;
             balls[i].features[(int)Ball.Features.curentTime] = curentTime;
@@ -102,16 +126,18 @@ public class DataManager : MonoBehaviour
         }       
     }
 
-    //private void OnApplicationQuit()
-    //{
-    //    GetSaveValues(false);
-    //}
-
     private void OnApplicationPause(bool pause)
     {
-        if(pause)
-        GetSaveValues(false);
+        if (pause)
+        {
+            GetSaveValues(false);
+        }
+        else
+        {
+            GetSaveValues(true);
+        }            
     }
+
     public void BuyValue(int i)
     {
         if (money> balls[i].features[(int)Ball.Features.buyValue])

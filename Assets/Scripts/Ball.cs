@@ -16,27 +16,28 @@ public class Ball : MonoBehaviour
 
     private bool enable;
     private bool active;
-    private bool locked;
+    public bool locked;
     private float timer;
     private TextMesh textBall;
+    [SerializeField] private int ballNumber;
 
     public float[] features = new float[counFeature];
 
     public CrashBallEvent CrashBall = new CrashBallEvent();
-    public UnityEvent SpavnEvent;
+    public SpawnBallEvent SpawnBall = new SpawnBallEvent();
 
     void Start()
     {
         textBall = gameObject.GetComponentInChildren<TextMesh>();
-        locked = false;
         active = false;
         timer = features[(int)Features.curentTime];
+        textBall.text = Math.Round(timer).ToString();
         enable = true;
     }
 
     void Update()
     {
-        if (enable)
+        if (enable && !locked)
         {
             textBall.text = Math.Round(timer).ToString();
             timer -= Time.deltaTime;         
@@ -49,7 +50,7 @@ public class Ball : MonoBehaviour
                 GetComponent<Rigidbody2D>().simulated = true;
                 active = true;
                 enable = false;
-                SpavnEvent.Invoke();
+                SpawnBall.Invoke(ballNumber);
             }
         }
     }
@@ -71,7 +72,13 @@ public class Ball : MonoBehaviour
             CrashBall.Invoke(features[(int)Features.curentValue]);
             Destroy(gameObject);
         }
+
+        if(collision.gameObject.TryGetComponent(out Obstruction obstruction))
+        {
+            obstruction.ChangeNumber(-features[(int)Features.curentValue]);
+        }
     }
 
     public class CrashBallEvent : UnityEvent<float> { }
+    public class SpawnBallEvent : UnityEvent<int> { }
 }
