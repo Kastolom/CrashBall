@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class DataManager : MonoBehaviour
 {
-    [SerializeField] GameObject cube;
-    [SerializeField] GameObject circle;
-    [SerializeField] GameObject circleBig;
+    //[SerializeField] GameObject cube;
+    //[SerializeField] GameObject circle;
+    //[SerializeField] GameObject circleBig;
 
     [SerializeField] GameObject Environment;
     [SerializeField] Text TextMoney;
@@ -66,9 +66,9 @@ public class DataManager : MonoBehaviour
             float buyTime = (float)Math.Round(balls[i].features[(int)Ball.Features.buyTime], 1);
 
             string block;
-            if (balls[i].locked)
+            if (balls[i].state == Obstruction.State.wait)
             {
-                block = "locked";
+                block = "$ locked";
             }
             else
             {
@@ -144,7 +144,11 @@ public class DataManager : MonoBehaviour
         {
             money -= balls[i].features[(int)Ball.Features.buyValue];
             balls[i].features[(int)Ball.Features.curentValue] = balls[i].features[(int)Ball.Features.curentValue] * coefValue;
-            balls[i].features[(int)Ball.Features.buyValue] = balls[i].features[(int)Ball.Features.buyValue] * levelcoefValue;          
+            balls[i].features[(int)Ball.Features.buyValue] = balls[i].features[(int)Ball.Features.buyValue] * levelcoefValue;
+            if (balls[i].state == Obstruction.State.wait)
+            {
+                balls[i].state = Obstruction.State.timer;
+            }
             ShowData();
         }      
     }

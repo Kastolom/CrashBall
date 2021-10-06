@@ -14,10 +14,21 @@ public class Ball : MonoBehaviour
         buyTime
     }
 
-    private bool enable;
-    private bool active;
-    public bool locked;
+    //private enum State
+    //{
+    //    standart,
+    //    wait,
+    //    fly,
+    //    timer
+    //}
+
+    public Obstruction.State state;
+
+    //public bool locked;
+    //private bool enable;
+    //private bool active;
     private float timer;
+
     private TextMesh textBall;
     [SerializeField] private int ballNumber;
 
@@ -29,15 +40,15 @@ public class Ball : MonoBehaviour
     void Start()
     {
         textBall = gameObject.GetComponentInChildren<TextMesh>();
-        active = false;
+        //active = false;
         timer = features[(int)Features.curentTime];
         textBall.text = Math.Round(timer).ToString();
-        enable = true;
+        //enable = true;
     }
 
     void Update()
     {
-        if (enable && !locked)
+        if (state == Obstruction.State.timer)
         {
             textBall.text = Math.Round(timer).ToString();
             timer -= Time.deltaTime;         
@@ -48,8 +59,9 @@ public class Ball : MonoBehaviour
                 timer = features[(int)Features.curentTime];
                 GetComponent<CircleCollider2D>().enabled = true;
                 GetComponent<Rigidbody2D>().simulated = true;
-                active = true;
-                enable = false;
+                //active = true;
+                //enable = false;
+                state = Obstruction.State.fly;
                 SpawnBall.Invoke(ballNumber);
             }
         }
@@ -57,7 +69,7 @@ public class Ball : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (active)
+        if (state == Obstruction.State.fly)
         {
             CrashBall.Invoke(features[(int)Features.curentValue] / 2);
             Destroy(gameObject);

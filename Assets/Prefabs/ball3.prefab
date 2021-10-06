@@ -227,10 +227,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec69c814f8cc1514b8c994dd47c2a59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  locked: 1
+  state: 1
   ballNumber: 2
   features:
   - 15
   - 10
-  - 30
-  - 30
+  - 25
+  - 25

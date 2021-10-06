@@ -1240,6 +1240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priceObstruction: 200
+  timerObstruction: 10
 --- !u!1 &601304224
 GameObject:
   m_ObjectHideFlags: 0
@@ -1440,6 +1441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priceObstruction: 200
+  timerObstruction: 10
 --- !u!1 &681140247
 GameObject:
   m_ObjectHideFlags: 0
@@ -1766,6 +1768,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priceObstruction: 200
+  timerObstruction: 10
 --- !u!1 &764847814
 GameObject:
   m_ObjectHideFlags: 0
@@ -2019,6 +2022,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priceObstruction: 200
+  timerObstruction: 10
 --- !u!1001 &819526285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2333,6 +2337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priceObstruction: 200
+  timerObstruction: 10
 --- !u!1 &863512083
 GameObject:
   m_ObjectHideFlags: 0
@@ -2640,6 +2645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priceObstruction: 200
+  timerObstruction: 10
 --- !u!1 &946388191
 GameObject:
   m_ObjectHideFlags: 0
@@ -3429,6 +3435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priceObstruction: 200
+  timerObstruction: 10
 --- !u!1 &1095279873
 GameObject:
   m_ObjectHideFlags: 0
@@ -3798,6 +3805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priceObstruction: 200
+  timerObstruction: 10
 --- !u!1 &1161773852
 GameObject:
   m_ObjectHideFlags: 0
@@ -3935,6 +3943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priceObstruction: 200
+  timerObstruction: 10
 --- !u!1 &1193446084
 GameObject:
   m_ObjectHideFlags: 0
@@ -4072,6 +4081,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priceObstruction: 200
+  timerObstruction: 10
 --- !u!1 &1197536624
 GameObject:
   m_ObjectHideFlags: 0
@@ -4519,6 +4529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priceObstruction: 500
+  timerObstruction: 10
 --- !u!1 &1351341546
 GameObject:
   m_ObjectHideFlags: 0
@@ -5037,10 +5048,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1fe2f06a2b894148866c62c3071c885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cube: {fileID: 8127819784833967967, guid: 62c99adbdd97ace44a965918067cb10e, type: 3}
-  circle: {fileID: 8158365470487804132, guid: 1ee56db5848ae694ab4644523dbdf854, type: 3}
-  circleBig: {fileID: 7935948551683767581, guid: e95ef50c607d22345821c25655d03e96,
-    type: 3}
   Environment: {fileID: 601304224}
   TextMoney: {fileID: 1825762434}
   TextValues:
@@ -6341,6 +6348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priceObstruction: 3000
+  timerObstruction: 10
 --- !u!1 &1972906441
 GameObject:
   m_ObjectHideFlags: 0
@@ -6893,6 +6901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priceObstruction: 200
+  timerObstruction: 10
 --- !u!1001 &7935948551731879504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6903,6 +6912,16 @@ PrefabInstance:
     - target: {fileID: 7935948551683767553, guid: e95ef50c607d22345821c25655d03e96,
         type: 3}
       propertyPath: selectTypeObstruction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935948551683767553, guid: e95ef50c607d22345821c25655d03e96,
+        type: 3}
+      propertyPath: timerObstruction
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7935948551683767553, guid: e95ef50c607d22345821c25655d03e96,
+        type: 3}
+      propertyPath: enable
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7935948551683767581, guid: e95ef50c607d22345821c25655d03e96,
@@ -6974,6 +6993,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 601304225}
     m_Modifications:
+    - target: {fileID: 8127819784833967962, guid: 62c99adbdd97ace44a965918067cb10e,
+        type: 3}
+      propertyPath: timerObstruction
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8127819784833967962, guid: 62c99adbdd97ace44a965918067cb10e,
+        type: 3}
+      propertyPath: enable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8127819784833967965, guid: 62c99adbdd97ace44a965918067cb10e,
         type: 3}
       propertyPath: m_Enabled
@@ -7057,6 +7086,16 @@ PrefabInstance:
         type: 3}
       propertyPath: selectTypeObstruction
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8158365470487804136, guid: 1ee56db5848ae694ab4644523dbdf854,
+        type: 3}
+      propertyPath: timerObstruction
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8158365470487804136, guid: 1ee56db5848ae694ab4644523dbdf854,
+        type: 3}
+      propertyPath: enable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8158365470487804139, guid: 1ee56db5848ae694ab4644523dbdf854,
         type: 3}
