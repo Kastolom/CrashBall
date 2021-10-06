@@ -41,7 +41,15 @@ public class Obstruction : MonoBehaviour
                 curentNumber = priceObstruction;
                 textObstruction.text = Math.Round(curentNumber, 1).ToString() + "$";
                 gameObject.GetComponent<SpriteRenderer>().color = Color.black;
-                gameObject.GetComponent<BoxCollider2D>().enabled = true;
+
+                if (gameObject.TryGetComponent(out BoxCollider2D collider2D))
+                {
+                    collider2D.enabled = true;
+                }
+                if (gameObject.TryGetComponent(out CircleCollider2D CircleCollider2D))
+                {
+                    CircleCollider2D.enabled = true;
+                }
             }
         }
     }
@@ -55,7 +63,10 @@ public class Obstruction : MonoBehaviour
             if (curentNumber <= 0)
             {
                 state = State.wait;
-                gameObject.GetComponent<ObjectMoving>().moving = false;
+                if (gameObject.TryGetComponent(out ObjectMoving objectMoving))
+                {
+                    objectMoving.moving = false;
+                }            
                 curentNumber = priceObstruction;
                 textObstruction.color = Color.black;
                 gameObject.GetComponent<SpriteRenderer>().color = Color.white;
@@ -81,7 +92,14 @@ public class Obstruction : MonoBehaviour
             newObstruction.GetComponent<Obstruction>().textObstruction = newObstruction.GetComponentInChildren<TextMesh>();
             newObstruction.GetComponent<Obstruction>().textObstruction.color = Color.white;
             newObstruction.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.5f);
-            newObstruction.GetComponent<BoxCollider2D>().enabled = false;
+            if(newObstruction.TryGetComponent(out BoxCollider2D collider2D)) 
+            {
+                collider2D.enabled = false;
+            }
+            if (newObstruction.TryGetComponent(out CircleCollider2D CircleCollider2D))
+            {
+                CircleCollider2D.enabled = false;
+            }
             newObstruction.GetComponent<Obstruction>().state = State.timer;
 
             state = State.fly;

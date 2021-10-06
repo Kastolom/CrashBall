@@ -14,19 +14,7 @@ public class Ball : MonoBehaviour
         buyTime
     }
 
-    //private enum State
-    //{
-    //    standart,
-    //    wait,
-    //    fly,
-    //    timer
-    //}
-
     public Obstruction.State state;
-
-    //public bool locked;
-    //private bool enable;
-    //private bool active;
     private float timer;
 
     private TextMesh textBall;
@@ -40,10 +28,8 @@ public class Ball : MonoBehaviour
     void Start()
     {
         textBall = gameObject.GetComponentInChildren<TextMesh>();
-        //active = false;
         timer = features[(int)Features.curentTime];
         textBall.text = Math.Round(timer).ToString();
-        //enable = true;
     }
 
     void Update()
@@ -59,8 +45,6 @@ public class Ball : MonoBehaviour
                 timer = features[(int)Features.curentTime];
                 GetComponent<CircleCollider2D>().enabled = true;
                 GetComponent<Rigidbody2D>().simulated = true;
-                //active = true;
-                //enable = false;
                 state = Obstruction.State.fly;
                 SpawnBall.Invoke(ballNumber);
             }

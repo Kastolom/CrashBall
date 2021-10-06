@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 public class DataManager : MonoBehaviour
 {
-    //[SerializeField] GameObject cube;
-    //[SerializeField] GameObject circle;
-    //[SerializeField] GameObject circleBig;
-
     [SerializeField] GameObject Environment;
     [SerializeField] Text TextMoney;
     [SerializeField] Text[] TextValues;
@@ -31,7 +27,8 @@ public class DataManager : MonoBehaviour
         //PlayerPrefs.DeleteAll();
         //PlayerPrefs.Save();
         GetSaveValues(true);
-        SpawnBalls();
+        //SpawnBalls();
+        SpawnBall(0);
         ShowData();
     }   
 
@@ -148,6 +145,7 @@ public class DataManager : MonoBehaviour
             if (balls[i].state == Obstruction.State.wait)
             {
                 balls[i].state = Obstruction.State.timer;
+                SpawnBall(i);
             }
             ShowData();
         }      
