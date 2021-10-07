@@ -87,6 +87,15 @@ public class Obstruction : MonoBehaviour
         {
             obstruction.ChangeNumber(- priceObstruction);
         }
+
+        if (collision.gameObject.TryGetComponent(out Ball ball))
+        {
+            ChangeNumber(-ball.features[(int)Ball.Features.curentValue]);
+            if (ball.prefabType == Ball.PrefabType.cube)
+            {
+                OnMouseDown();
+            }
+        }
     }
 
     private void OnMouseDown()

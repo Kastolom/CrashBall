@@ -14,6 +14,15 @@ public class Ball : MonoBehaviour
         buyTime
     }
 
+    public enum PrefabType
+    {
+        circle,
+        cube,
+        poly
+    }
+
+    public PrefabType prefabType;
+
     public Obstruction.State state;
     private float timer;
 
@@ -69,10 +78,10 @@ public class Ball : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if(collision.gameObject.TryGetComponent(out Obstruction obstruction))
-        {
-            obstruction.ChangeNumber(-features[(int)Features.curentValue]);
-        }
+        //if(collision.gameObject.TryGetComponent(out Obstruction obstruction))
+        //{
+        //    obstruction.ChangeNumber(-features[(int)Features.curentValue]);
+        //}
     }
 
     public class CrashBallEvent : UnityEvent<float> { }
