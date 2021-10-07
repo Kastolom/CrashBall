@@ -82,6 +82,11 @@ public class Obstruction : MonoBehaviour
             gate.GatePowerChange(-priceObstruction);
             Destroy(gameObject);
         }
+
+        if (collision.gameObject.TryGetComponent(out Obstruction obstruction))
+        {
+            obstruction.ChangeNumber(- priceObstruction);
+        }
     }
 
     private void OnMouseDown()
