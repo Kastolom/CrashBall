@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scripts;
 
 public class DataManager : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public class DataManager : MonoBehaviour
     {
         foreach (var item in balls)
         {
-            if (item.state == Obstruction.State.timer)
+            if (item.state == State.timer)
             {
                 Ball ball = Instantiate(item);
                 ball.CrashBall.AddListener(CrashEvent);
@@ -54,29 +55,10 @@ public class DataManager : MonoBehaviour
         ball.gameObject.transform.parent = Environment.transform;
     }
 
-    private string FormatWrite(float _money, int realCount)
-    {
-        if (_money > 1000000f)
-        {
-            _money = (float)Math.Round(_money/1000000, realCount);
-            return _money.ToString() + "m";
-        } else
-        if (_money > 1000f)
-        {
-            _money = (float)Math.Round(_money/1000, realCount);
-            return _money.ToString() + "k";
-        }
-        else
-        {
-            _money = (float)Math.Round(_money, realCount);
-            return _money.ToString();
-        }
-    }
-
     private void ShowData()
     {
-        //money = (float)Math.Round(money, 1);
-        TextMoney.text = FormatWrite(money, 1) + " $";
+        money = (float)Math.Round(money, 1);
+        TextMoney.text = FormatWrite.FormatNumber(money, 1) + " $";
         for (int i = 0; i < balls.Length; i++)
         {
             float curentValue = (float)Math.Round(balls[i].features[(int)Ball.Features.curentValue], 1);
@@ -85,7 +67,7 @@ public class DataManager : MonoBehaviour
             float buyTime = (float)Math.Round(balls[i].features[(int)Ball.Features.buyTime], 1);
 
             string block;
-            if (balls[i].state == Obstruction.State.wait)
+            if (balls[i].state == State.wait)
             {
                 block = "$ locked";
             }
@@ -94,15 +76,10 @@ public class DataManager : MonoBehaviour
                 block = "$";
             }
 
-            //TextValues[i].text = curentValue.ToString() + "$";
-            //TextTimes[i].text = curentTime.ToString() + "sec.";
-            //LeveTextValues[i].text = buyValue.ToString() + block;
-            //levelTextTimes[i].text = buyTime.ToString() + block;
-
-            TextValues[i].text = FormatWrite(curentValue ,1) + " $";
-            TextTimes[i].text = FormatWrite(curentTime, 2) + "sec.";
-            LeveTextValues[i].text = FormatWrite(buyValue, 1) + block;
-            levelTextTimes[i].text = FormatWrite(buyTime, 1) + block;
+            TextValues[i].text = FormatWrite.FormatNumber(curentValue ,1) + " $";
+            TextTimes[i].text = FormatWrite.FormatNumber(curentTime, 2) + "sec.";
+            LeveTextValues[i].text = FormatWrite.FormatNumber(buyValue, 1) + block;
+            levelTextTimes[i].text = FormatWrite.FormatNumber(buyTime, 1) + block;
 
             balls[i].features[(int)Ball.Features.curentValue] = curentValue;
             balls[i].features[(int)Ball.Features.curentTime] = curentTime;
@@ -169,9 +146,9 @@ public class DataManager : MonoBehaviour
             money -= balls[i].features[(int)Ball.Features.buyValue];
             balls[i].features[(int)Ball.Features.curentValue] = balls[i].features[(int)Ball.Features.curentValue] * coefValue;
             balls[i].features[(int)Ball.Features.buyValue] = balls[i].features[(int)Ball.Features.buyValue] * levelcoefValue;
-            if (balls[i].state == Obstruction.State.wait)
+            if (balls[i].state == State.wait)
             {
-                balls[i].state = Obstruction.State.timer;
+                balls[i].state = State.timer;
                 SpawnBall(i);
             }
             ShowData();

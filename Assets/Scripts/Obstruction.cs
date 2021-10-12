@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Assets.Scripts;
 
 public class Obstruction : MonoBehaviour
 {
@@ -10,13 +11,6 @@ public class Obstruction : MonoBehaviour
 
     private GameObject environment;
     private float curentTimer;
-    public enum State
-    {
-        standart,
-        wait,
-        fly,
-        timer
-    }
 
     public State state { get; set; }
 
