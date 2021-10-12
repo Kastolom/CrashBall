@@ -50,9 +50,17 @@ public class Ball : MonoBehaviour
 
             if (timer <= 0)
             {
-                textBall.text = features[(int)Features.curentValue].ToString() + "$";
+                textBall.text = FormatWrite(features[(int)Features.curentValue] ,1) + " $";
                 timer = features[(int)Features.curentTime];
-                GetComponent<CircleCollider2D>().enabled = true;
+                if (gameObject.TryGetComponent(out BoxCollider2D collider2D))
+                {
+                    collider2D.enabled = true;
+                }
+                if (gameObject.TryGetComponent(out CircleCollider2D CircleCollider2D))
+                {
+                    CircleCollider2D.enabled = true;
+                }
+                //GetComponent<CircleCollider2D>().enabled = true;
                 GetComponent<Rigidbody2D>().simulated = true;
                 state = Obstruction.State.fly;
                 SpawnBall.Invoke(ballNumber);
@@ -77,11 +85,26 @@ public class Ball : MonoBehaviour
             CrashBall.Invoke(features[(int)Features.curentValue]);
             Destroy(gameObject);
         }
+    }
 
-        //if(collision.gameObject.TryGetComponent(out Obstruction obstruction))
-        //{
-        //    obstruction.ChangeNumber(-features[(int)Features.curentValue]);
-        //}
+    private string FormatWrite(float _money, int realCount)
+    {
+        if (_money > 1000000f)
+        {
+            _money = (float)Math.Round(_money/1000000, realCount);
+            return _money.ToString() + "m";
+        }
+        else
+        if (_money > 1000f)
+        {
+            _money = (float)Math.Round(_money/1000, realCount);
+            return _money.ToString() + "k";
+        }
+        else
+        {
+            _money = (float)Math.Round(_money, realCount);
+            return _money.ToString();
+        }
     }
 
     public class CrashBallEvent : UnityEvent<float> { }

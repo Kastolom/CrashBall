@@ -91,10 +91,10 @@ public class Obstruction : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out Ball ball))
         {
             ChangeNumber(-ball.features[(int)Ball.Features.curentValue]);
-            if (ball.prefabType == Ball.PrefabType.cube)
-            {
-                OnMouseDown();
-            }
+            //if (ball.prefabType == Ball.PrefabType.cube)
+            //{
+            //    OnMouseDown();
+            //}
         }
     }
 

@@ -50,7 +50,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10100, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 2100000, guid: f170f2be8b1438f4f96f62a1786623d0, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,13 +86,13 @@ TextMesh:
   m_Anchor: 4
   m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 70
-  m_FontStyle: 1
+  m_FontSize: 100
+  m_FontStyle: 0
   m_RichText: 1
-  m_Font: {fileID: 0}
+  m_Font: {fileID: 12800000, guid: f170f2be8b1438f4f96f62a1786623d0, type: 3}
   m_Color:
     serializedVersion: 2
-    rgba: 4278190080
+    rgba: 4286709760
 --- !u!1 &4262455138208287975
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,9 +103,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4262455138208287979}
   - component: {fileID: 4262455138208287976}
-  - component: {fileID: 4262455138208287977}
   - component: {fileID: 4262455138208287974}
   - component: {fileID: 5282912884290882350}
+  - component: {fileID: 4229637395094120884}
   m_Layer: 0
   m_Name: cube2
   m_TagString: Untagged
@@ -167,8 +167,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5498b839ffee32e428eb54dd6248b43e, type: 3}
-  m_Color: {r: 0.39215687, g: 0.39215687, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 08a56e414fade9d4d8d857baca66e0aa, type: 3}
+  m_Color: {r: 0.39215687, g: 0.78431374, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -178,22 +178,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &4262455138208287977
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4262455138208287975}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.28
 --- !u!50 &4262455138208287974
 Rigidbody2D:
   serializedVersion: 4
@@ -228,10 +212,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 1
-  state: 1
+  state: 3
   ballNumber: 4
   features:
-  - 60
+  - 75
   - 15
+  - 101.2
   - 75
-  - 75
+--- !u!61 &4229637395094120884
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4262455138208287975}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.5, y: 3.5}
+    newSize: {x: 2.56, y: 2.56}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.6, y: 2.6}
+  m_EdgeRadius: 0

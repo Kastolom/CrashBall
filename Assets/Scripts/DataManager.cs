@@ -27,8 +27,8 @@ public class DataManager : MonoBehaviour
         //PlayerPrefs.DeleteAll();
         //PlayerPrefs.Save();
         GetSaveValues(true);
-        //SpawnBalls();
-        SpawnBall(0);
+        SpawnBalls();
+        //SpawnBall(0);
         ShowData();
     }   
 
@@ -36,10 +36,13 @@ public class DataManager : MonoBehaviour
     {
         foreach (var item in balls)
         {
-            Ball ball = Instantiate(item);
-            ball.CrashBall.AddListener(CrashEvent);
-            ball.SpawnBall.AddListener(SpawnBall);
-            ball.gameObject.transform.parent = Environment.transform;
+            if (item.state == Obstruction.State.timer)
+            {
+                Ball ball = Instantiate(item);
+                ball.CrashBall.AddListener(CrashEvent);
+                ball.SpawnBall.AddListener(SpawnBall);
+                ball.gameObject.transform.parent = Environment.transform;
+            }         
         }
     }
 
@@ -51,10 +54,29 @@ public class DataManager : MonoBehaviour
         ball.gameObject.transform.parent = Environment.transform;
     }
 
+    private string FormatWrite(float _money, int realCount)
+    {
+        if (_money > 1000000f)
+        {
+            _money = (float)Math.Round(_money/1000000, realCount);
+            return _money.ToString() + "m";
+        } else
+        if (_money > 1000f)
+        {
+            _money = (float)Math.Round(_money/1000, realCount);
+            return _money.ToString() + "k";
+        }
+        else
+        {
+            _money = (float)Math.Round(_money, realCount);
+            return _money.ToString();
+        }
+    }
+
     private void ShowData()
     {
-        money = (float)Math.Round(money, 1);
-        TextMoney.text = money.ToString() + "$";
+        //money = (float)Math.Round(money, 1);
+        TextMoney.text = FormatWrite(money, 1) + " $";
         for (int i = 0; i < balls.Length; i++)
         {
             float curentValue = (float)Math.Round(balls[i].features[(int)Ball.Features.curentValue], 1);
@@ -72,10 +94,15 @@ public class DataManager : MonoBehaviour
                 block = "$";
             }
 
-            TextValues[i].text = curentValue.ToString() + "$";
-            TextTimes[i].text = curentTime.ToString() + "sec.";
-            LeveTextValues[i].text = buyValue.ToString() + block;
-            levelTextTimes[i].text = buyTime.ToString() + block;
+            //TextValues[i].text = curentValue.ToString() + "$";
+            //TextTimes[i].text = curentTime.ToString() + "sec.";
+            //LeveTextValues[i].text = buyValue.ToString() + block;
+            //levelTextTimes[i].text = buyTime.ToString() + block;
+
+            TextValues[i].text = FormatWrite(curentValue ,1) + " $";
+            TextTimes[i].text = FormatWrite(curentTime, 2) + "sec.";
+            LeveTextValues[i].text = FormatWrite(buyValue, 1) + block;
+            levelTextTimes[i].text = FormatWrite(buyTime, 1) + block;
 
             balls[i].features[(int)Ball.Features.curentValue] = curentValue;
             balls[i].features[(int)Ball.Features.curentTime] = curentTime;
