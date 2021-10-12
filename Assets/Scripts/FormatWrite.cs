@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Assets.Scripts
-{  
+{
     static class FormatWrite
     {
         const float THOUSAND = 1000f;
