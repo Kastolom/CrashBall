@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
+using Assets.Scripts;
 
 public class Ball : MonoBehaviour
 {
@@ -23,7 +24,8 @@ public class Ball : MonoBehaviour
 
     public PrefabType prefabType;
 
-    public Obstruction.State state;
+    public State state;
+
     private float timer;
 
     private TextMesh textBall;
@@ -43,14 +45,14 @@ public class Ball : MonoBehaviour
 
     void Update()
     {
-        if (state == Obstruction.State.timer)
+        if (state == State.timer)
         {
             textBall.text = Math.Round(timer).ToString();
             timer -= Time.deltaTime;         
 
             if (timer <= 0)
             {
-                textBall.text = FormatWrite(features[(int)Features.curentValue] ,1) + " $";
+                textBall.text = FormatWrite.FormatNumber(features[(int)Features.curentValue] ,1) + " $";
                 timer = features[(int)Features.curentTime];
                 if (gameObject.TryGetComponent(out BoxCollider2D collider2D))
                 {
@@ -60,9 +62,8 @@ public class Ball : MonoBehaviour
                 {
                     CircleCollider2D.enabled = true;
                 }
-                //GetComponent<CircleCollider2D>().enabled = true;
                 GetComponent<Rigidbody2D>().simulated = true;
-                state = Obstruction.State.fly;
+                state = State.fly;
                 SpawnBall.Invoke(ballNumber);
             }
         }
@@ -70,7 +71,7 @@ public class Ball : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (state == Obstruction.State.fly)
+        if (state == State.fly)
         {
             CrashBall.Invoke(features[(int)Features.curentValue] / 2);
             Destroy(gameObject);
@@ -84,26 +85,6 @@ public class Ball : MonoBehaviour
             gate.GatePowerChange(-features[(int)Features.curentValue]);
             CrashBall.Invoke(features[(int)Features.curentValue]);
             Destroy(gameObject);
-        }
-    }
-
-    private string FormatWrite(float _money, int realCount)
-    {
-        if (_money > 1000000f)
-        {
-            _money = (float)Math.Round(_money/1000000, realCount);
-            return _money.ToString() + "m";
-        }
-        else
-        if (_money > 1000f)
-        {
-            _money = (float)Math.Round(_money/1000, realCount);
-            return _money.ToString() + "k";
-        }
-        else
-        {
-            _money = (float)Math.Round(_money, realCount);
-            return _money.ToString();
         }
     }
 
