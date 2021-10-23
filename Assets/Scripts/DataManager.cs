@@ -19,6 +19,7 @@ public class DataManager : MonoBehaviour
     [SerializeField] float coefTime;
     [SerializeField] float levelcoefValue;
     [SerializeField] float levelcoefTime;
+    [SerializeField] float coefChanceGold;
 
     private float money;
     private List<Ball> sceneBalls = new List<Ball>();
@@ -76,10 +77,10 @@ public class DataManager : MonoBehaviour
                 block = "$";
             }
 
-            TextValues[i].text = FormatWrite.FormatNumber(curentValue ,1) + " $";
-            TextTimes[i].text = FormatWrite.FormatNumber(curentTime, 2) + "sec.";
-            LeveTextValues[i].text = FormatWrite.FormatNumber(buyValue, 1) + block;
-            levelTextTimes[i].text = FormatWrite.FormatNumber(buyTime, 1) + block;
+            TextValues[i].text = FormatWrite.FormatNumber(curentValue ,10) + " $";
+            TextTimes[i].text = FormatWrite.FormatNumber(curentTime, 100) + "sec.";
+            LeveTextValues[i].text = FormatWrite.FormatNumber(buyValue, 10) + block;
+            levelTextTimes[i].text = FormatWrite.FormatNumber(buyTime, 10) + block;
 
             balls[i].features[(int)Ball.Features.curentValue] = curentValue;
             balls[i].features[(int)Ball.Features.curentTime] = curentTime;

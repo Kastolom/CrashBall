@@ -5,7 +5,7 @@ using Assets.Scripts;
 
 public class Ball : MonoBehaviour
 {
-    const int counFeature = 4;
+    //const int counFeature = 4;
 
     public enum Features
     {
@@ -31,7 +31,8 @@ public class Ball : MonoBehaviour
     private TextMesh textBall;
     [SerializeField] private int ballNumber;
 
-    public float[] features = new float[counFeature];
+    //public float[] features = new float[counFeature];
+    public float[] features;
 
     public CrashBallEvent CrashBall = new CrashBallEvent();
     public SpawnBallEvent SpawnBall = new SpawnBallEvent();
@@ -52,7 +53,7 @@ public class Ball : MonoBehaviour
 
             if (timer <= 0)
             {
-                textBall.text = FormatWrite.FormatNumber(features[(int)Features.curentValue] ,1) + " $";
+                textBall.text = FormatWrite.FormatNumber(features[(int)Features.curentValue] ,10) + " $";
                 timer = features[(int)Features.curentTime];
                 if (gameObject.TryGetComponent(out BoxCollider2D collider2D))
                 {

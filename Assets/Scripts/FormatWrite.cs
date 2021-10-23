@@ -10,25 +10,29 @@ namespace Assets.Scripts
 
         static public string FormatNumber(float _money, int realCount)
         {
-            if (_money > BILLION)
+            if (_money >= BILLION)
             {
-                _money = (float)Math.Round(_money / BILLION, realCount);
+                _money = _money / BILLION;
+                _money = (float)Math.Truncate(_money * realCount) / realCount;
                 return _money.ToString() + "b";
             } else
-            if (_money > MILLION)
+            if (_money >= MILLION)
             {
-                _money = (float)Math.Round(_money / MILLION, realCount);
+                _money = _money / MILLION;
+                _money = (float)Math.Truncate(_money * realCount) / realCount;
                 return _money.ToString() + "m";
             }
             else
-            if (_money > THOUSAND)
+            if (_money >= THOUSAND)
             {
-                _money = (float)Math.Round(_money / THOUSAND, realCount);
+                _money = _money / THOUSAND;
+                _money = (float)Math.Truncate(_money * realCount) /realCount;
                 return _money.ToString() + "k";
             }
             else
             {
-                _money = (float)Math.Round(_money, realCount);
+                _money = (float)Math.Truncate(_money * realCount) / realCount;
+                //_money = (float)Math.Round(_money, realCount);
                 return _money.ToString();
             }
         }

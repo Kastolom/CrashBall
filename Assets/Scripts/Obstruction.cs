@@ -4,6 +4,13 @@ using Assets.Scripts;
 
 public class Obstruction : MonoBehaviour
 {
+    [SerializeField] private Sprite whiteSprite;
+    [SerializeField] private Sprite blackSprite;
+    [SerializeField] private Color waitColor;
+    [SerializeField] private Color flyColor;
+    [SerializeField] private Color standartColor;
+    [SerializeField] private Color timerColor;
+
     [SerializeField] private float priceObstruction;
     [SerializeField] private float timerObstruction;
     private float curentNumber;
@@ -34,7 +41,7 @@ public class Obstruction : MonoBehaviour
                 state = State.standart;
                 curentNumber = priceObstruction;
                 textObstruction.text = Math.Round(curentNumber, 1).ToString() + "$";
-                gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+                gameObject.GetComponent<SpriteRenderer>().color = standartColor;
 
                 if (gameObject.TryGetComponent(out BoxCollider2D collider2D))
                 {
@@ -62,8 +69,8 @@ public class Obstruction : MonoBehaviour
                     objectMoving.moving = false;
                 }            
                 curentNumber = priceObstruction;
-                textObstruction.color = Color.black;
-                gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                gameObject.GetComponent<SpriteRenderer>().sprite = whiteSprite;
+                gameObject.GetComponent<SpriteRenderer>().color = waitColor;
                 textObstruction.text = Math.Round(curentNumber, 1).ToString() + "$";
             }
         }     
@@ -99,7 +106,8 @@ public class Obstruction : MonoBehaviour
             GameObject newObstruction = Instantiate(gameObject , environment.transform);
             newObstruction.GetComponent<Obstruction>().textObstruction = newObstruction.GetComponentInChildren<TextMesh>();
             newObstruction.GetComponent<Obstruction>().textObstruction.color = Color.white;
-            newObstruction.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0.5f);
+            newObstruction.GetComponent<SpriteRenderer>().sprite = blackSprite;
+            newObstruction.GetComponent<SpriteRenderer>().color = timerColor;
             if(newObstruction.TryGetComponent(out BoxCollider2D collider2D)) 
             {
                 collider2D.enabled = false;
@@ -108,9 +116,14 @@ public class Obstruction : MonoBehaviour
             {
                 CircleCollider2D.enabled = false;
             }
+            if (newObstruction.TryGetComponent(out PolygonCollider2D polygonCollider2D))
+            {
+                polygonCollider2D.enabled = false;
+            }
             newObstruction.GetComponent<Obstruction>().state = State.timer;
 
             state = State.fly;
+            gameObject.GetComponent<SpriteRenderer>().color = flyColor;
             gameObject.AddComponent<Rigidbody2D>();            
         }
     }
