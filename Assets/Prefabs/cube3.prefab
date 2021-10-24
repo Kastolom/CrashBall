@@ -121,7 +121,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9137233088318815558}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.7, y: 2.5, z: 10}
+  m_LocalPosition: {x: 1.7, y: -18, z: 10}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_Children:
   - {fileID: 100585817895472447}
@@ -216,10 +216,12 @@ MonoBehaviour:
   ballNumber: 5
   spriteYellow: {fileID: 21300000, guid: bd3f264e032656a4fa96961a40ac7c54, type: 3}
   features:
-  - 572.2
+  - 300
   - 18
-  - 1471.1
-  - 180
+  - 500
+  - 500
+  - 1
+  - 1
   - 1
 --- !u!61 &2386685499116973644
 BoxCollider2D:

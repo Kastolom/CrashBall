@@ -14,6 +14,15 @@
         curentTime,
         buyValue,
         buyTime,
-        chanceGold
+        chanceGold,
+        levelValue,
+        levelTime
+    }
+    public enum PrefabType
+    {
+        circle,
+        cube,
+        poly,
+        gold
     }
 }

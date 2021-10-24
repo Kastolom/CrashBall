@@ -12,6 +12,8 @@ public class DataManager : MonoBehaviour
     [SerializeField] Text[] TextTimes;
     [SerializeField] Text[] LeveTextValues;
     [SerializeField] Text[] levelTextTimes;
+    [SerializeField] Text[] levelValueCount;
+    [SerializeField] Text[] levelTimeCount;
     [SerializeField] Ball[] balls;
 
     [SerializeField] string[] keyPlayerPrefs;
@@ -20,23 +22,31 @@ public class DataManager : MonoBehaviour
     [SerializeField] float levelcoefValue;
     [SerializeField] float levelcoefTime;
     [SerializeField] float coefChanceGold;
+    [SerializeField] float coefCostGold;
 
     private float money;
+    private int diamond;
+
+    [SerializeField] private int[] costDiamond;
+
     private List<Ball> sceneBalls = new List<Ball>();
-    private Ball[] curentballs = new Ball[9];
+    //private Ball[] curentballs = new Ball[9];
 
     private void Start()
     {
-        for (int i = 0; i < curentballs.Length; i++)
+        diamond = 5;
+        for (int i = 0; i < balls.Length; i++)
         {
-            curentballs[i] = balls[i];
+            balls[i] = balls[i];
         }
         //PlayerPrefs.DeleteAll();
         //PlayerPrefs.Save();
         GetSaveValues(true);
-        SpawnBalls();
         //SpawnBall(0);
+        SpawnBalls();
         ShowData();
+        
+
     }   
 
     private void SpawnBalls()
@@ -67,10 +77,10 @@ public class DataManager : MonoBehaviour
         TextMoney.text = FormatWrite.FormatNumber(money, 10) + " $";
         for (int i = 0; i < balls.Length; i++)
         {
-            float curentValue = (float)Math.Round(balls[i].features[(int)Features.curentValue], 1);
-            float curentTime = (float)Math.Round(balls[i].features[(int)Features.curentTime], 2);
-            float buyValue = (float)Math.Round(balls[i].features[(int)Features.buyValue], 1);
-            float buyTime = (float)Math.Round(balls[i].features[(int)Features.buyTime], 1);
+            float curentValue = balls[i].features[(int)Features.curentValue];
+            float curentTime = balls[i].features[(int)Features.curentTime];
+            float buyValue = balls[i].features[(int)Features.buyValue];
+            float buyTime = balls[i].features[(int)Features.buyTime];
 
             string block;
             if (balls[i].state == State.wait)
@@ -86,11 +96,13 @@ public class DataManager : MonoBehaviour
             TextTimes[i].text = FormatWrite.FormatNumber(curentTime, 100) + "sec.";
             LeveTextValues[i].text = FormatWrite.FormatNumber(buyValue, 10) + block;
             levelTextTimes[i].text = FormatWrite.FormatNumber(buyTime, 10) + block;
+            levelValueCount[i].text = "level" + balls[i].features[(int)Features.levelValue].ToString();
+            levelTimeCount[i].text = "level" + balls[i].features[(int)Features.levelTime].ToString();
 
-            balls[i].features[(int)Features.curentValue] = curentValue;
-            balls[i].features[(int)Features.curentTime] = curentTime;
-            balls[i].features[(int)Features.buyValue] = buyValue;
-            balls[i].features[(int)Features.buyTime] = buyTime;
+            //curentballs[i].features[(int)Features.curentValue] = curentValue;
+            //curentballs[i].features[(int)Features.curentTime] = curentTime;
+            //curentballs[i].features[(int)Features.buyValue] = buyValue;
+            //curentballs[i].features[(int)Features.buyTime] = buyTime;
         }
     }
 
@@ -100,35 +112,60 @@ public class DataManager : MonoBehaviour
         ShowData();
     }
 
-    private void GetSaveValues(bool get)
+    private void PlayerPrefsfFloat(bool _get, string key, ref float value)
     {
-        if (get)
+        if (_get)
         {
-            money = PlayerPrefs.GetFloat("money", 0f);
+            if (PlayerPrefs.HasKey(key))
+            {
+                value = PlayerPrefs.GetFloat(key);
+            }
         }
         else
         {
-            PlayerPrefs.SetFloat("money", money);
+            PlayerPrefs.SetFloat(key, value);
             PlayerPrefs.Save();
         }
+    }
+
+    private void PlayerPrefsfInt(bool _get, string key, ref int value)
+    {
+        if (_get)
+        {
+            if (PlayerPrefs.HasKey(key))
+            {
+                value = PlayerPrefs.GetInt(key);
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt(key, value);
+            PlayerPrefs.Save();
+        }
+    }
+
+    private void GetSaveValues(bool get)
+    {
+        for (int i = 0; i < costDiamond.Length; i++)
+        {
+            string diamondKey = "diamondCost" + i.ToString();
+            PlayerPrefsfInt(get, diamondKey, ref costDiamond[i]);
+        }
+
+        PlayerPrefsfFloat(get, "money", ref money);
+        PlayerPrefsfInt(get, "diamond", ref diamond);
 
         for (int i = 0; i < balls.Length; i++)
         {
+            string stateKey = "state" + i.ToString();
+            int curentState = (int)balls[i].state;
+            PlayerPrefsfInt(get, stateKey, ref curentState);
+            balls[i].state = (State)curentState;
+
             for (int j = 0; j < keyPlayerPrefs.Length; j++)
             {
                 string key = keyPlayerPrefs[j] + i.ToString() + j.ToString();
-                if (get)
-                {
-                    if (PlayerPrefs.HasKey(key))
-                    {
-                        balls[i].features[j] = PlayerPrefs.GetFloat(key);
-                    }
-                }
-                else
-                {
-                    PlayerPrefs.SetFloat(key, balls[i].features[j]);
-                    PlayerPrefs.Save();
-                }               
+                PlayerPrefsfFloat(get, key, ref balls[i].features[j]);             
             }          
         }       
     }
@@ -147,7 +184,7 @@ public class DataManager : MonoBehaviour
 
     public void BuyValue(int i)
     {
-        if (money> balls[i].features[(int)Features.buyValue])
+        if (money >= balls[i].features[(int)Features.buyValue])
         {
             money -= balls[i].features[(int)Features.buyValue];
             balls[i].features[(int)Features.curentValue] = balls[i].features[(int)Features.curentValue] * coefValue;
@@ -163,7 +200,7 @@ public class DataManager : MonoBehaviour
 
     public void ByTime(int i)
     {
-        if (money > balls[i].features[(int)Features.buyTime])
+        if (money >= balls[i].features[(int)Features.buyTime])
         {
             money -= balls[i].features[(int)Features.buyTime];
             float timeOffset = balls[i].features[(int)Features.curentTime] * coefTime;
@@ -171,5 +208,10 @@ public class DataManager : MonoBehaviour
             balls[i].features[(int)Features.buyTime] = balls[i].features[(int)Features.buyTime] * levelcoefTime;           
             ShowData();
         }        
+    }
+
+    public void ByChanceGold()
+    {
+
     }
 }

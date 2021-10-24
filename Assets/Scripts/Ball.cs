@@ -5,12 +5,6 @@ using Assets.Scripts;
 
 public class Ball : MonoBehaviour
 {
-    public enum PrefabType
-    {
-        circle,
-        cube,
-        poly
-    }
 
     public PrefabType prefabType;
 
@@ -45,17 +39,9 @@ public class Ball : MonoBehaviour
             {
                 textBall.text = FormatWrite.FormatNumber(features[(int)Features.curentValue] ,10) + " $";
                 timer = features[(int)Features.curentTime];
-                if (gameObject.TryGetComponent(out BoxCollider2D collider2D))
+                if (gameObject.TryGetComponent(out Collider2D collider2D))
                 {
                     collider2D.enabled = true;
-                }
-                if (gameObject.TryGetComponent(out CircleCollider2D CircleCollider2D))
-                {
-                    CircleCollider2D.enabled = true;
-                }
-                if (gameObject.TryGetComponent(out PolygonCollider2D polygonCollider2D))
-                {
-                    polygonCollider2D.enabled = true;
                 }
                 GetComponent<Rigidbody2D>().simulated = true;
                 state = State.fly;

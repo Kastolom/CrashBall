@@ -5,9 +5,20 @@ using UnityEngine;
 public class Interface : MonoBehaviour
 {
 
-    [SerializeField] private GameObject PanelBalls;
-    public void InvertSetActive()
+    [SerializeField] private GameObject[] PanelElements;
+    public void InvertSetActive(int index)
     {
-        PanelBalls.SetActive(!PanelBalls.activeSelf);
+        for (int i = 0; i < PanelElements.Length; i++)
+        {
+            if (i == index)
+            {
+                PanelElements[index].SetActive(!PanelElements[index].activeSelf);
+            }
+            else
+            {
+                PanelElements[i].SetActive(false);
+            }
+        }
+        //PanelBalls.SetActive(!PanelBalls.activeSelf);
     }
 }

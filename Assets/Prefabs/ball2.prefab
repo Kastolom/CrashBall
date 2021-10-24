@@ -232,8 +232,10 @@ MonoBehaviour:
   ballNumber: 1
   spriteYellow: {fileID: 21300000, guid: 4d876729641c61d4e87fe1997944d678, type: 3}
   features:
-  - 18.5
-  - 7.2
-  - 44.8
-  - 13.5
+  - 5
+  - 7
+  - 15
+  - 15
+  - 1
+  - 1
   - 1
