@@ -23,9 +23,14 @@ public class DataManager : MonoBehaviour
 
     private float money;
     private List<Ball> sceneBalls = new List<Ball>();
+    private Ball[] curentballs = new Ball[9];
 
     private void Start()
     {
+        for (int i = 0; i < curentballs.Length; i++)
+        {
+            curentballs[i] = balls[i];
+        }
         //PlayerPrefs.DeleteAll();
         //PlayerPrefs.Save();
         GetSaveValues(true);
@@ -59,13 +64,13 @@ public class DataManager : MonoBehaviour
     private void ShowData()
     {
         money = (float)Math.Round(money, 1);
-        TextMoney.text = FormatWrite.FormatNumber(money, 1) + " $";
+        TextMoney.text = FormatWrite.FormatNumber(money, 10) + " $";
         for (int i = 0; i < balls.Length; i++)
         {
-            float curentValue = (float)Math.Round(balls[i].features[(int)Ball.Features.curentValue], 1);
-            float curentTime = (float)Math.Round(balls[i].features[(int)Ball.Features.curentTime], 2);
-            float buyValue = (float)Math.Round(balls[i].features[(int)Ball.Features.buyValue], 1);
-            float buyTime = (float)Math.Round(balls[i].features[(int)Ball.Features.buyTime], 1);
+            float curentValue = (float)Math.Round(balls[i].features[(int)Features.curentValue], 1);
+            float curentTime = (float)Math.Round(balls[i].features[(int)Features.curentTime], 2);
+            float buyValue = (float)Math.Round(balls[i].features[(int)Features.buyValue], 1);
+            float buyTime = (float)Math.Round(balls[i].features[(int)Features.buyTime], 1);
 
             string block;
             if (balls[i].state == State.wait)
@@ -82,10 +87,10 @@ public class DataManager : MonoBehaviour
             LeveTextValues[i].text = FormatWrite.FormatNumber(buyValue, 10) + block;
             levelTextTimes[i].text = FormatWrite.FormatNumber(buyTime, 10) + block;
 
-            balls[i].features[(int)Ball.Features.curentValue] = curentValue;
-            balls[i].features[(int)Ball.Features.curentTime] = curentTime;
-            balls[i].features[(int)Ball.Features.buyValue] = buyValue;
-            balls[i].features[(int)Ball.Features.buyTime] = buyTime;
+            balls[i].features[(int)Features.curentValue] = curentValue;
+            balls[i].features[(int)Features.curentTime] = curentTime;
+            balls[i].features[(int)Features.buyValue] = buyValue;
+            balls[i].features[(int)Features.buyTime] = buyTime;
         }
     }
 
@@ -99,7 +104,7 @@ public class DataManager : MonoBehaviour
     {
         if (get)
         {
-            money = PlayerPrefs.GetFloat("money");
+            money = PlayerPrefs.GetFloat("money", 0f);
         }
         else
         {
@@ -142,11 +147,11 @@ public class DataManager : MonoBehaviour
 
     public void BuyValue(int i)
     {
-        if (money> balls[i].features[(int)Ball.Features.buyValue])
+        if (money> balls[i].features[(int)Features.buyValue])
         {
-            money -= balls[i].features[(int)Ball.Features.buyValue];
-            balls[i].features[(int)Ball.Features.curentValue] = balls[i].features[(int)Ball.Features.curentValue] * coefValue;
-            balls[i].features[(int)Ball.Features.buyValue] = balls[i].features[(int)Ball.Features.buyValue] * levelcoefValue;
+            money -= balls[i].features[(int)Features.buyValue];
+            balls[i].features[(int)Features.curentValue] = balls[i].features[(int)Features.curentValue] * coefValue;
+            balls[i].features[(int)Features.buyValue] = balls[i].features[(int)Features.buyValue] * levelcoefValue;
             if (balls[i].state == State.wait)
             {
                 balls[i].state = State.timer;
@@ -158,12 +163,12 @@ public class DataManager : MonoBehaviour
 
     public void ByTime(int i)
     {
-        if (money > balls[i].features[(int)Ball.Features.buyTime])
+        if (money > balls[i].features[(int)Features.buyTime])
         {
-            money -= balls[i].features[(int)Ball.Features.buyTime];
-            float timeOffset = balls[i].features[(int)Ball.Features.curentTime] * coefTime;
-            balls[i].features[(int)Ball.Features.curentTime] -= timeOffset;
-            balls[i].features[(int)Ball.Features.buyTime] = balls[i].features[(int)Ball.Features.buyTime] * levelcoefTime;           
+            money -= balls[i].features[(int)Features.buyTime];
+            float timeOffset = balls[i].features[(int)Features.curentTime] * coefTime;
+            balls[i].features[(int)Features.curentTime] -= timeOffset;
+            balls[i].features[(int)Features.buyTime] = balls[i].features[(int)Features.buyTime] * levelcoefTime;           
             ShowData();
         }        
     }

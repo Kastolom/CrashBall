@@ -7,4 +7,13 @@
         fly,
         timer
     }
+
+    public enum Features
+    {
+        curentValue,
+        curentTime,
+        buyValue,
+        buyTime,
+        chanceGold
+    }
 }

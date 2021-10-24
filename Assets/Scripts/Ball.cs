@@ -5,16 +5,6 @@ using Assets.Scripts;
 
 public class Ball : MonoBehaviour
 {
-    //const int counFeature = 4;
-
-    public enum Features
-    {
-        curentValue,
-        curentTime,
-        buyValue,
-        buyTime
-    }
-
     public enum PrefabType
     {
         circle,
@@ -30,8 +20,8 @@ public class Ball : MonoBehaviour
 
     private TextMesh textBall;
     [SerializeField] private int ballNumber;
+    [SerializeField] private Sprite spriteYellow;
 
-    //public float[] features = new float[counFeature];
     public float[] features;
 
     public CrashBallEvent CrashBall = new CrashBallEvent();
@@ -63,8 +53,21 @@ public class Ball : MonoBehaviour
                 {
                     CircleCollider2D.enabled = true;
                 }
+                if (gameObject.TryGetComponent(out PolygonCollider2D polygonCollider2D))
+                {
+                    polygonCollider2D.enabled = true;
+                }
                 GetComponent<Rigidbody2D>().simulated = true;
                 state = State.fly;
+                float chance = UnityEngine.Random.Range(0f, 100f);
+                if (chance <= features[(int)Features.chanceGold])
+                {
+                    features[(int)Features.curentValue] *= 10;
+                    textBall.text = FormatWrite.FormatNumber(features[(int)Features.curentValue], 10) +"$";
+                    gameObject.GetComponent<SpriteRenderer>().sprite = spriteYellow;
+                    gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 50, 255);
+                }
+
                 SpawnBall.Invoke(ballNumber);
             }
         }

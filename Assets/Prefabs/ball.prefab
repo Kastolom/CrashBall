@@ -230,6 +230,7 @@ MonoBehaviour:
   prefabType: 0
   state: 3
   ballNumber: 0
+  spriteYellow: {fileID: 21300000, guid: 4d876729641c61d4e87fe1997944d678, type: 3}
   features:
   - 3.8
   - 5

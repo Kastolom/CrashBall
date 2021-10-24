@@ -32,7 +32,6 @@ namespace Assets.Scripts
             else
             {
                 _money = (float)Math.Truncate(_money * realCount) / realCount;
-                //_money = (float)Math.Round(_money, realCount);
                 return _money.ToString();
             }
         }
