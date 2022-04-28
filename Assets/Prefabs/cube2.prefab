@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabType: 1
-  state: 0
+  state: 1
   ballNumber: 4
   spriteYellow: {fileID: 21300000, guid: bd3f264e032656a4fa96961a40ac7c54, type: 3}
   features:
